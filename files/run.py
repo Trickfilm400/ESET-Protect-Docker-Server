@@ -67,10 +67,13 @@ class CurrentInstall:
 
     def load_config(self):
         """Load config file"""
-        with open("/config/config.cfg") as config_file:
-            for line in config_file:
-                key, value = line.strip().split("=")
-                self.config.update({key: value})
+        try:
+            with open("/config/config.cfg") as config_file:
+                for line in config_file:
+                    key, value = line.strip().split("=")
+                    self.config.update({key: value})
+        except:
+            print("error: config file does not exist")
 
     def write_config(self):
         """Write config file"""
@@ -81,7 +84,10 @@ class CurrentInstall:
 
 def is_new_install(current_install):
     """Check to see if this is a new install or an upgrade"""
-    return not current_install.config["ProductInstanceID"]
+    try:
+        return not current_install.config["ProductInstanceID"]
+    except:
+        return True
 
 
 def install_database():
@@ -284,7 +290,13 @@ def upgrade(current_install):
 
     set_upgrade_in_installer()
 
-    load_settings = custom_action("LoadInstalledData", args).decode()
+    load_settings = False
+    try:
+        load_settings = custom_action("LoadInstalledData", args).decode()
+    except Exception as e:
+        print("error while LoadInstalledData, still using output:")
+        print(e)
+        load_settings = e.output.decode()
 
     current_settings = {}
     for line in load_settings.split("\n"):
