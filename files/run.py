@@ -21,7 +21,7 @@ SETTINGS = {
     "license-key": None,
     "server-port": None,
     "console-port": None,
-    "server-root-password": "!EraAdmin1",
+    "server-root-password": "!EsetProtectAdmin1",
     "db-type": "MySQL Server",
     "db-driver": "MySQL ODBC Unicode Driver",
     "db-hostname": "mysql",
@@ -30,7 +30,8 @@ SETTINGS = {
     "db-admin-username": None,
     "db-admin-password": None,
     "db-user-username": "era_db_user",
-    "db-user-password": "!EraAdmin1",
+    "db-user-password": "!EsetProtectUser1",
+    "db-otherconnstringvalues": "",
     "cert-hostname": "esmc.localhost",
     "skip-cert": None,
     "server-cert-path": None,
@@ -146,6 +147,8 @@ def write_startup_configuration():
         SETTINGS["db-user-password"],
         "--startup-config-path",
         "/config/StartupConfiguration.ini",
+        "--db-otherconnstringvalues",
+        SETTINGS["db-otherconnstringvalues"],
     ]
 
     custom_action("CreateStartupConfig", args)
@@ -197,6 +200,8 @@ def set_guid():
         SETTINGS["db-user-password"],
         "--db-connectors-dir",
         "/opt/eset/RemoteAdministrator/Server/setup/",
+        "--db-otherconnstringvalues",
+        SETTINGS["db-otherconnstringvalues"],
     ]
 
     if SETTINGS["db-admin-username"] and SETTINGS["db-admin-password"]:
