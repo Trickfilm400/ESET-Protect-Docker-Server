@@ -27,10 +27,10 @@ RUN mkdir -p /tmp/odbc \
 FROM ubuntu:24.04 AS eset-builder
 
 # ESET versions
-ARG ESET_VERSION=12.1.260.0
+ARG ESET_VERSION=13.0.442.0
 
 # Add installer and modify it
-ADD https://repository.eset.com/v1/com/eset/apps/business/era/server/linux/v12/${ESET_VERSION}/server_linux_x86_64.sh /install/server-linux-x86_64.sh
+ADD https://repository.eset.com/v1/com/eset/apps/business/era/server/linux/v13/${ESET_VERSION}/server_linux_x86_64.sh /install/server-linux-x86_64.sh
 RUN sed -i 's|config_ProgramConfigDir=.*|config_ProgramConfigDir="/config"|g' /install/server-linux-x86_64.sh \
     && sed -i 's|^config_ProgramDataDir=.*|config_ProgramDataDir="/data"|g' /install/server-linux-x86_64.sh \
     && sed -i 's|^config_ProgramLogsDir=.*|config_ProgramLogsDir="/logs"|g' /install/server-linux-x86_64.sh \
